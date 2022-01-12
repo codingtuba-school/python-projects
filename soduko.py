@@ -203,8 +203,23 @@ class Soduko():
             def generate():
                 for _i in range(len(_dummy)):
                     for ii in range(len(_dummy[0])):
-                        for iii in range(len(_dummy[0][0])):
-                            for iiii in range(len(_dummy[0][0][0])):
+                        gone=[]
+                        for _ in range(len(_dummy[0][0])):
+                            for __ in range(len(_dummy[0][0][0])):
+                                def get_new():
+                                    random_selected=[
+                                        random(0,len(_dummy[0][0])),
+                                        random(0,len(_dummy[0][0][0]))
+                                    ]
+                                    while random_selected in gone:random_selected=[random(0,len(_dummy[0][0])), random(0,len(_dummy[0][0][0]))]
+                                    gone.append(random_selected)
+                                    return random_selected
+                                _new=get_new()
+                                iii=_new[0]
+                                iiii=_new[1]
+
+                                print(_new)
+
                                 def _set():
                                     _dummy[_i][ii][iii][iiii]=random(1,self.board[1][0]*self.board[1][1])
                                     if self.checkGameStatus(_i,ii,iii,iiii) is False:
