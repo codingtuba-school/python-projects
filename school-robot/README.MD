@@ -1,0 +1,1 @@
+The pyhton file in this file is a template to how the simon syas will work.

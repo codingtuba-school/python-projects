@@ -1,3 +1,4 @@
+from nltk import flatten
 from tkinter import *
 from random import randint as random
 
@@ -208,10 +209,10 @@ class Soduko():
                             for __ in range(len(_dummy[0][0][0])):
                                 def get_new():
                                     random_selected=[
-                                        random(0,len(_dummy[0][0])),
-                                        random(0,len(_dummy[0][0][0]))
+                                        random(0,len(_dummy[0][0])-1),
+                                        random(0,len(_dummy[0][0][0])-1)
                                     ]
-                                    while random_selected in gone:random_selected=[random(0,len(_dummy[0][0])), random(0,len(_dummy[0][0][0]))]
+                                    while random_selected in gone:random_selected=[random(0,len(_dummy[0][0])-1), random(0,len(_dummy[0][0][0])-1)]
                                     gone.append(random_selected)
                                     return random_selected
                                 _new=get_new()
@@ -231,6 +232,15 @@ class Soduko():
                                                 _dummy[_i][ii][iii][iiii]=-1
                                 _set()
             generate()
+
+            def tweak():
+                for _ in range(5):
+                    self.boxes[random()]
+
+            canmoveon=False
+            while not canmoveon:
+                if not -1 in flatten(self.boxes): canmoveon=True
+                else: tweak()
 
             self.boxes=_dummy
         else:
@@ -382,5 +392,5 @@ class Soduko():
 
 # example usage:
 
-soduko=Soduko("5*5+2*2",Tk(),SodukoOptions(debugMessages=True))
+soduko=Soduko("5*5+4*4",Tk(),SodukoOptions(debugMessages=True))
 soduko.start()
