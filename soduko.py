@@ -1,6 +1,7 @@
 from nltk import flatten
 from tkinter import *
 from random import randint as random
+from random import shuffle
 
 class SodukoOptions():
     def __init__(self,name="Soudko",maxBoxLength=False,maxBoxWidth=False,maxBoardHeight=False,maxBoardWidth=False,overideErrors=False,debugMessages=False,onGameWin=False,onGameLoss=False):
@@ -198,51 +199,15 @@ class Soduko():
     def shuffle(self):
         if not self.error:
             self.disabled=[]
-            _dummy=self.boxes
-
-            # dont touch _i it works
-            def generate():
-                for _i in range(len(_dummy)):
-                    for ii in range(len(_dummy[0])):
-                        gone=[]
-                        for _ in range(len(_dummy[0][0])):
-                            for __ in range(len(_dummy[0][0][0])):
-                                def get_new():
-                                    random_selected=[
-                                        random(0,len(_dummy[0][0])-1),
-                                        random(0,len(_dummy[0][0][0])-1)
-                                    ]
-                                    while random_selected in gone:random_selected=[random(0,len(_dummy[0][0])-1), random(0,len(_dummy[0][0][0])-1)]
-                                    gone.append(random_selected)
-                                    return random_selected
-                                _new=get_new()
-                                iii=_new[0]
-                                iiii=_new[1]
-
-                                print(_new)
-
-                                def _set():
-                                    _dummy[_i][ii][iii][iiii]=random(1,self.board[1][0]*self.board[1][1])
-                                    if self.checkGameStatus(_i,ii,iii,iiii) is False:
-                                        for i in range(1,self.board[0][0]*self.board[0][1]+1):
-                                            _dummy[_i][ii][iii][iiii]=i
-                                            if self.checkGameStatus(_i,ii,iii,iiii) != False:
-                                                break
-                                            elif _dummy[_i][ii][iii][iiii]==self.board[0][0]*self.board[0][1]:
-                                                _dummy[_i][ii][iii][iiii]=-1
-                                _set()
-            generate()
-
-            def tweak():
-                for _ in range(5):
-                    self.boxes[random()]
-
-            canmoveon=False
-            while not canmoveon:
-                if not -1 in flatten(self.boxes): canmoveon=True
-                else: tweak()
-
-            self.boxes=_dummy
+            def check_box(i,ii):
+                status=True
+                for iii in range(len(self.boxes[i][ii])):
+                    for iiii in range(len(self.boxes[i][ii][iii])):
+                        if self.boxes[i][ii][iii][iiii]!=-1:
+                            status__dummy=self.checkGameStatus(i,ii,iii,iiii)
+                            if status__dummy==False:
+                                status=False
+                return status
         else:
             print("There was an error somewhere.")
 
